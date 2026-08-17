@@ -72,6 +72,25 @@ The list is a blocklist: an entry means access is restricted. Absence from the l
 eligibility determination — the Terms of Use impose conditions (KYC, AML and sanctions screening,
 whitelisting) that no geographic list can express.
 
+### Flat form
+
+Countries and regions are separate arrays so that `countries[].code` stays a unique key. If you are
+migrating from an exchange restricted-country endpoint that returns one flat array, join them:
+
+```js
+const geo = await fetch(URL).then((r) => r.json());
+
+const items = [
+  ...geo.countries.map((c) => ({ countryName: c.name, countryCode: c.code, basis: c.basis })),
+  ...geo.regions.map((r) => ({ countryName: r.name, countryCode: r.country, regionCode: r.code, basis: r.basis })),
+];
+```
+
+That yields 49 entries, with `UA` appearing four times — once for Ukraine and once for each
+restricted region. Consumers that key on country code alone must expect duplicates in the flat form,
+which is why the source file does not ship that way. `regionCode` has no equivalent in the
+exchange-style format; drop it if your consumer cannot use it.
+
 ## Versioning
 
 Both files carry a semver `version` object and an ISO 8601 `timestamp`, following the Token Lists
