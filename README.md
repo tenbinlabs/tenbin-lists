@@ -112,8 +112,24 @@ No dependencies, no install step. It checks the things a schema cannot: that `st
 `baseToken` resolve to entries in the same list, that every token tag is declared, and that every
 country code is an assigned ISO 3166-1 region.
 
-CI runs that on every push and pull request, then validates `tokenlist.json` against the official
-Token Lists schema, fetched at run time from `@uniswap/token-lists`. To reproduce locally:
+A second check confirms the list still agrees with the documents that govern it:
+
+```bash
+node check-sources.mjs
+```
+
+It fetches the [Geographic Restrictions](https://docs.tenbinlabs.xyz/legal-and-transparency/geographic-restrictions)
+page and the [Terms of Use](https://tenbinlabs.xyz/terms-of-use), and fails when the published
+country list diverges from this repository, when a jurisdiction the Terms name outright is missing
+or misclassified, or when the count of entries resting on policy rather than the Terms changes.
+Those documents change without anyone touching this repository, so CI runs this weekly as well as on
+every commit.
+
+The app enforces the same list from `geoblock.ts` in the protocol monorepo, which runs an equivalent
+check against the same docs page. All three are meant to move together.
+
+CI also validates `tokenlist.json` against the official Token Lists schema, fetched at run time from
+`@uniswap/token-lists`. To reproduce locally:
 
 ```bash
 curl -sSLf -o /tmp/tokenlist.schema.json \
