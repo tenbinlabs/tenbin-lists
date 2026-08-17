@@ -49,3 +49,7 @@ Published for integration convenience, not as legal advice. The
 [Terms of Use](https://tenbinlabs.xyz/terms-of-use) and
 [Geographic Restrictions](https://docs.tenbinlabs.xyz/legal-and-transparency/geographic-restrictions)
 control where they and this repository disagree. Re-fetch rather than vendoring a stale copy.
+
+## License
+
+[CC0 1.0](LICENSE) — public domain. Use it however you need; the authority note above still applies.
