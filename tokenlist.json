@@ -1,0 +1,122 @@
+{
+  "name": "Tenbin Token List",
+  "timestamp": "2026-08-17T00:00:00.000Z",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "logoURI": "https://imagedelivery.net/W9izL2TJZ4xVNjT8bRqxxw/a272c2f9-d89d-4aec-4164-da27e4dc3900/2k",
+  "keywords": [
+    "tenbin",
+    "rwa",
+    "tokenized",
+    "fx",
+    "commodities"
+  ],
+  "tags": {
+    "tenbin": {
+      "name": "Issued by Tenbin",
+      "description": "Asset token issued by Tenbin. Redeemable through the Tenbin protocol."
+    },
+    "staked": {
+      "name": "Staked (yield)",
+      "description": "Yield-bearing staked form of a Tenbin asset token. Exchange rate to the base token only increases."
+    }
+  },
+  "tokens": [
+    {
+      "chainId": 1,
+      "address": "0x6a547b25534234bb79CE6961a23Db13DE154b6F4",
+      "name": "Tenbin Gold",
+      "symbol": "tGLD",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/W9izL2TJZ4xVNjT8bRqxxw/a272c2f9-d89d-4aec-4164-da27e4dc3900/2k",
+      "tags": [
+        "tenbin"
+      ],
+      "extensions": {
+        "underlyingMarket": "COMEX GOLD",
+        "stakedToken": "0x8d301801d899dC81fEabBDE69407A53b82bdBF19"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x8d301801d899dC81fEabBDE69407A53b82bdBF19",
+      "name": "Staked Tenbin Gold",
+      "symbol": "stGLD",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/W9izL2TJZ4xVNjT8bRqxxw/95e8f297-046c-4d1d-44d9-964a75569200/2k",
+      "tags": [
+        "tenbin",
+        "staked"
+      ],
+      "extensions": {
+        "underlyingMarket": "COMEX GOLD",
+        "baseToken": "0x6a547b25534234bb79CE6961a23Db13DE154b6F4"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x8d015aFcb6F437010653352EB1E58152c4e23734",
+      "name": "Tenbin Mexican Peso",
+      "symbol": "tMXN",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/W9izL2TJZ4xVNjT8bRqxxw/132b04c2-dd05-428e-a466-7566ceaa3800/2k",
+      "tags": [
+        "tenbin"
+      ],
+      "extensions": {
+        "underlyingMarket": "USD/MXN",
+        "stakedToken": "0x8BDf6A2DFda084bD242Cd285CF75E80de3eB00ba"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x8BDf6A2DFda084bD242Cd285CF75E80de3eB00ba",
+      "name": "Staked Tenbin Mexican Peso",
+      "symbol": "stMXN",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/W9izL2TJZ4xVNjT8bRqxxw/e22cdfb1-288c-4b0d-d250-8ccdc813f700/2k",
+      "tags": [
+        "tenbin",
+        "staked"
+      ],
+      "extensions": {
+        "underlyingMarket": "USD/MXN",
+        "baseToken": "0x8d015aFcb6F437010653352EB1E58152c4e23734"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x4C1b46adb8877E389171EC6Ef67b385094C0afaD",
+      "name": "Tenbin Brazilian Real",
+      "symbol": "tBRL",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/W9izL2TJZ4xVNjT8bRqxxw/8b3f057c-bdba-4bc8-0836-258f28140700/2k",
+      "tags": [
+        "tenbin"
+      ],
+      "extensions": {
+        "underlyingMarket": "USD/BRL",
+        "stakedToken": "0xDaB276F6E19CCC54cA5aaA2645A94087ca776a3f"
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0xDaB276F6E19CCC54cA5aaA2645A94087ca776a3f",
+      "name": "Staked Tenbin Brazilian Real",
+      "symbol": "stBRL",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/W9izL2TJZ4xVNjT8bRqxxw/7d673f21-3db6-428f-09bc-f9b9e3ac0900/2k",
+      "tags": [
+        "tenbin",
+        "staked"
+      ],
+      "extensions": {
+        "underlyingMarket": "USD/BRL",
+        "baseToken": "0x4C1b46adb8877E389171EC6Ef67b385094C0afaD"
+      }
+    }
+  ]
+}
