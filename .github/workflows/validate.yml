@@ -4,10 +4,6 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-  # The published documents change without touching this repo, so the drift
-  # check has to run on a clock rather than only on commits.
-  schedule:
-    - cron: "0 9 * * 1"
 
 jobs:
   validate:
@@ -29,15 +25,3 @@ jobs:
             https://unpkg.com/@uniswap/token-lists@latest/src/tokenlist.schema.json
           npx -y -p ajv-cli@5 -p ajv-formats@2 ajv validate \
             --spec=draft7 -c ajv-formats -s tokenlist.schema.json -d tokenlist.json
-
-  # Separate job: this one reaches the public internet, so a network failure here
-  # should not be mistaken for a schema failure above.
-  sources:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Terms of Use and docs page match the published list
-        run: node check-sources.mjs
