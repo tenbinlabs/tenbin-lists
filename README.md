@@ -89,7 +89,19 @@ Bump the version and the timestamp in the same commit as the change.
 node validate.mjs
 ```
 
-No dependencies, no install step. CI runs it on every push and pull request.
+No dependencies, no install step. It checks the things a schema cannot: that `stakedToken` and
+`baseToken` resolve to entries in the same list, that every token tag is declared, and that every
+country code is an assigned ISO 3166-1 region.
+
+CI runs that on every push and pull request, then validates `tokenlist.json` against the official
+Token Lists schema, fetched at run time from `@uniswap/token-lists`. To reproduce locally:
+
+```bash
+curl -sSLf -o /tmp/tokenlist.schema.json \
+  https://unpkg.com/@uniswap/token-lists@latest/src/tokenlist.schema.json
+npx -y -p ajv-cli@5 -p ajv-formats@2 ajv validate \
+  --spec=draft7 -c ajv-formats -s /tmp/tokenlist.schema.json -d tokenlist.json
+```
 
 ## Authority
 

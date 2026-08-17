@@ -20,8 +20,8 @@
       "description": "Asset token issued by Tenbin. Redeemable through the Tenbin protocol."
     },
     "staked": {
-      "name": "Staked (yield)",
-      "description": "Yield-bearing staked form of a Tenbin asset token. Exchange rate to the base token only increases."
+      "name": "Staked yield",
+      "description": "Staked form of a Tenbin asset token. Bears yield, and its exchange rate to the base token only increases."
     }
   },
   "tokens": [

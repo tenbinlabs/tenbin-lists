@@ -12,4 +12,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: node validate.mjs
+      - name: Cross-reference and jurisdiction checks
+        run: node validate.mjs
+
+      # The official schema catches constraints validate.mjs deliberately does not
+      # duplicate (string patterns, length caps). Fetched per-run so the list is
+      # checked against the current standard, not a vendored snapshot.
+      - name: Token Lists schema
+        run: |
+          curl -sSLf -o tokenlist.schema.json \
+            https://unpkg.com/@uniswap/token-lists@latest/src/tokenlist.schema.json
+          npx -y -p ajv-cli@5 -p ajv-formats@2 ajv validate \
+            --spec=draft7 -c ajv-formats -s tokenlist.schema.json -d tokenlist.json
