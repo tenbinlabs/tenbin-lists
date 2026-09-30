@@ -1,5 +1,9 @@
 name: validate
 
+# Least privilege: the job only reads the repository and never needs to write
+# to it, so no token scopes are granted.
+permissions: {}
+
 on:
   push:
   pull_request:
@@ -8,20 +12,44 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    # Cancel superseded runs on the same ref.
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    # Bound the job so a hung network fetch cannot burn the runner budget.
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # No later step pushes; do not leave the job token in .git/config.
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
+
       - name: Cross-reference and jurisdiction checks
         run: node validate.mjs
 
       # The official schema catches constraints validate.mjs deliberately does not
-      # duplicate (string patterns, length caps). Fetched per-run so the list is
-      # checked against the current standard, not a vendored snapshot.
+      # duplicate (string patterns, length caps). It is fetched per-run so the list
+      # is checked against the current standard rather than a vendored snapshot.
+      #
+      # Supply-chain notes:
+      #   - The version is pinned (not `@latest`) and the download is verified
+      #     against a recorded SHA-256, so a tampered or silently republished
+      #     package cannot feed a permissive schema into the validator.
+      #   - `curl -f` makes an HTTP error fail the step instead of writing an
+      #     error page to the schema file.
       - name: Token Lists schema
+        env:
+          SCHEMA_URL: https://unpkg.com/@uniswap/token-lists@1.0.0-beta.35/src/tokenlist.schema.json
+          # sha256 of the pinned schema file. Update deliberately, never silently.
+          SCHEMA_SHA256: 3c33314b868c9134646924ad13335e65a6f549008dfcb2b9f3d52b48a91ef967
         run: |
-          curl -sSLf -o tokenlist.schema.json \
-            https://unpkg.com/@uniswap/token-lists@latest/src/tokenlist.schema.json
-          npx -y -p ajv-cli@5 -p ajv-formats@2 ajv validate \
+          set -euo pipefail
+          curl -sSLf -o tokenlist.schema.json "$SCHEMA_URL"
+          echo "$SCHEMA_SHA256  tokenlist.schema.json" | sha256sum --check --strict -
+          npx -y -p ajv-cli@5.0.0 -p ajv-formats@2.1.1 ajv validate \
             --spec=draft7 -c ajv-formats -s tokenlist.schema.json -d tokenlist.json
